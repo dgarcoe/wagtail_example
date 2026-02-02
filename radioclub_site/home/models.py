@@ -6,6 +6,19 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 
 
 class HomePage(Page):
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        from blog.models import BlogPage
+
+        from blog.models import BlogIndexPage
+
+        blog_index = BlogIndexPage.objects.live().descendant_of(self).first()
+        context["blog_index"] = blog_index
+        context["latest_posts"] = (
+            BlogPage.objects.live().descendant_of(self).order_by("-date")[:3]
+        )
+        return context
     # Hero section
     banner_title = models.CharField(
         max_length=255,
