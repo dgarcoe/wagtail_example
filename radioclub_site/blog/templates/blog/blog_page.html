@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-blogpage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+{% block content %}
+<article class="blog-post">
+    {% if page.header_image %}
+    <div class="blog-post-hero">
+        {% image page.header_image fill-1200x400 as header_img %}
+        <img src="{{ header_img.url }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
+
+    <div class="container">
+        <header class="blog-post-header">
+            <time class="blog-post-date" datetime="{{ page.date|date:'Y-m-d' }}">
+                {{ page.date|date:"F j, Y" }}
+            </time>
+            <h1>{{ page.title }}</h1>
+            <p class="blog-post-intro">{{ page.intro }}</p>
+            {% if page.tags.all %}
+            <div class="blog-post-tags">
+                {% with blog_index=page.get_parent %}
+                {% for tag in page.tags.all %}
+                <a href="{% pageurl blog_index %}?tag={{ tag }}" class="blog-tag">{{ tag }}</a>
+                {% endfor %}
+                {% endwith %}
+            </div>
+            {% endif %}
+        </header>
+
+        <div class="blog-post-body rich-text">
+            {{ page.body|richtext }}
+        </div>
+
+        <nav class="blog-post-nav">
+            {% with blog_index=page.get_parent %}
+            <a href="{% pageurl blog_index %}">&larr; All posts</a>
+            {% endwith %}
+        </nav>
+    </div>
+</article>
+{% endblock %}
