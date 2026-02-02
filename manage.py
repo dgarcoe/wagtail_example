@@ -6,6 +6,9 @@ import sys
 
 def main():
     """Run administrative tasks."""
+    # Add the inner radioclub_site directory to sys.path so that
+    # the radioclub_site package (containing settings) is importable.
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "radioclub_site"))
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "radioclub_site.settings.dev")
     try:
         from django.core.management import execute_from_command_line
