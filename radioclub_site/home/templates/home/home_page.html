@@ -1,21 +1,132 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
 {% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/radioclub.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Hero Section -->
+<header class="hero">
+    {% if page.banner_image %}
+    {% image page.banner_image fill-1920x600 as hero_img %}
+    <div class="hero-bg" style="background-image: url('{{ hero_img.url }}');">
+    {% else %}
+    <div class="hero-bg hero-bg--default">
+    {% endif %}
+        <div class="hero-overlay">
+            <div class="container">
+                {% if page.club_callsign %}
+                <span class="hero-callsign">{{ page.club_callsign }}</span>
+                {% endif %}
+                <h1 class="hero-title">{{ page.banner_title }}</h1>
+                {% if page.banner_subtitle %}
+                <p class="hero-subtitle">{{ page.banner_subtitle }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+<!-- Navigation -->
+<nav class="site-nav">
+    <div class="container">
+        <ul class="nav-list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#activities">Activities</a></li>
+            <li><a href="#meetings">Meetings</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
 
+<!-- About Section -->
+<section id="about" class="section section--about">
+    <div class="container">
+        <h2 class="section-title">{{ page.about_title }}</h2>
+        <div class="section-body rich-text">
+            {{ page.about_description|richtext }}
+        </div>
+        {% if page.repeater_info %}
+        <div class="repeater-info">
+            <span class="repeater-label">Club Repeater:</span>
+            <span class="repeater-value">{{ page.repeater_info }}</span>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Activities Section -->
+<section id="activities" class="section section--activities">
+    <div class="container">
+        <h2 class="section-title">{{ page.activities_title }}</h2>
+        <div class="activities-grid">
+            {% if page.activity_1_title %}
+            <div class="activity-card">
+                <div class="activity-icon">&#9889;</div>
+                <h3>{{ page.activity_1_title }}</h3>
+                <p>{{ page.activity_1_description }}</p>
+            </div>
+            {% endif %}
+            {% if page.activity_2_title %}
+            <div class="activity-card">
+                <div class="activity-icon">&#127942;</div>
+                <h3>{{ page.activity_2_title }}</h3>
+                <p>{{ page.activity_2_description }}</p>
+            </div>
+            {% endif %}
+            {% if page.activity_3_title %}
+            <div class="activity-card">
+                <div class="activity-icon">&#128218;</div>
+                <h3>{{ page.activity_3_title }}</h3>
+                <p>{{ page.activity_3_description }}</p>
+            </div>
+            {% endif %}
+            {% if page.activity_4_title %}
+            <div class="activity-card">
+                <div class="activity-icon">&#128225;</div>
+                <h3>{{ page.activity_4_title }}</h3>
+                <p>{{ page.activity_4_description }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Meetings Section -->
+<section id="meetings" class="section section--meetings">
+    <div class="container">
+        <h2 class="section-title">{{ page.meeting_title }}</h2>
+        <div class="section-body rich-text">
+            {{ page.meeting_description|richtext }}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section section--contact">
+    <div class="container">
+        <h2 class="section-title">{{ page.contact_title }}</h2>
+        <div class="section-body rich-text">
+            {{ page.contact_description|richtext }}
+        </div>
+        {% if page.contact_email %}
+        <div class="contact-email">
+            <a href="mailto:{{ page.contact_email }}">{{ page.contact_email }}</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <p>
+            {% if page.club_callsign %}{{ page.club_callsign }} &mdash; {% endif %}
+            {{ page.banner_title }}
+        </p>
+    </div>
+</footer>
 {% endblock content %}
