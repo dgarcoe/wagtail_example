@@ -1,0 +1,72 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% for block in content %}
+    {% if block.block_type == 'heading' %}
+    <div class="block-heading">
+        <{{ block.value.heading_level }}>{{ block.value.text }}</{{ block.value.heading_level }}>
+    </div>
+
+    {% elif block.block_type == 'paragraph' %}
+    <div class="block-paragraph">
+        {{ block.value|richtext }}
+    </div>
+
+    {% elif block.block_type == 'image' %}
+    <figure class="block-image">
+        {% image block.value.image width-800 as img %}
+        <img src="{{ img.url }}" alt="{{ block.value.caption|default:'' }}">
+        {% if block.value.caption %}
+        <figcaption>{{ block.value.caption }}{% if block.value.attribution %} &mdash; {{ block.value.attribution }}{% endif %}</figcaption>
+        {% endif %}
+    </figure>
+
+    {% elif block.block_type == 'callout' %}
+    <div class="block-callout callout-{{ block.value.background_color }}">
+        {{ block.value.text|richtext }}
+    </div>
+
+    {% elif block.block_type == 'button' %}
+    <div class="mb-3">
+        {% if block.value.page %}
+        <a href="{% pageurl block.value.page %}" class="btn btn-{{ block.value.style }}"{% if block.value.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>{{ block.value.text }}</a>
+        {% elif block.value.url %}
+        <a href="{{ block.value.url }}" class="btn btn-{{ block.value.style }}"{% if block.value.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>{{ block.value.text }}</a>
+        {% endif %}
+    </div>
+
+    {% elif block.block_type == 'cards' %}
+    <div class="block-cards">
+        <div class="row g-4">
+            {% for card in block.value %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    {% if card.image %}
+                    {% image card.image fill-400x250 as card_img %}
+                    <img src="{{ card_img.url }}" class="card-img-top" alt="{{ card.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ card.title }}</h5>
+                        <div class="card-text">{{ card.text|richtext }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% elif block.block_type == 'embed' %}
+    <div class="block-embed ratio ratio-16x9">
+        {{ block.value }}
+    </div>
+
+    {% elif block.block_type == 'table' %}
+    <div class="block-table table-responsive">
+        {{ block.value }}
+    </div>
+
+    {% elif block.block_type == 'raw_html' %}
+    <div class="block-raw-html">
+        {{ block.value }}
+    </div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{{ page.title }}</h1>
+    
+    {% if page.introduction %}
+    <div class="lead mb-4">{{ page.introduction|richtext }}</div>
+    {% endif %}
+
+    {% if categories %}
+    <div class="mb-4">
+        <span class="me-2 fw-bold">Categorías:</span>
+        {% for cat in categories %}
+        <a href="?category={{ cat.slug }}" class="badge bg-primary text-decoration-none me-1">{{ cat.name }}</a>
+        {% endfor %}
+        {% if current_category %}
+        <a href="{{ page.url }}" class="badge bg-secondary text-decoration-none ms-2">Todas</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        {% for post in posts %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                {% if post.header_image %}
+                {% image post.header_image fill-400x250 as post_img %}
+                <img src="{{ post_img.url }}" class="card-img-top" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <p class="text-muted small mb-2">{{ post.date }}</p>
+                    <h5 class="card-title"><a href="{% pageurl post %}" class="text-decoration-none stretched-link">{{ post.title }}</a></h5>
+                    {% if post.introduction %}
+                    <p class="card-text">{{ post.introduction }}</p>
+                    {% endif %}
+                </div>
+                {% if post.categories.all %}
+                <div class="card-footer">
+                    {% for cat in post.categories.all %}
+                    <span class="badge bg-light text-dark">{{ cat.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-muted">No hay artículos publicados aún.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if posts.has_other_pages %}
+    <nav class="mt-5" aria-label="Paginación">
+        <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}">Anterior</a></li>
+            {% endif %}
+            {% for i in posts.paginator.page_range %}
+            <li class="page-item{% if posts.number == i %} active{% endif %}">
+                <a class="page-link" href="?page={{ i }}{% if current_category %}&category={{ current_category }}{% endif %}">{{ i }}</a>
+            </li>
+            {% endfor %}
+            {% if posts.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

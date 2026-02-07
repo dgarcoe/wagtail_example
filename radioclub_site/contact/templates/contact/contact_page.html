@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{{ page.title }}</h1>
+    
+    {% if page.introduction %}
+    <div class="lead mb-4">{{ page.introduction|richtext }}</div>
+    {% endif %}
+
+    <div class="row g-5">
+        <!-- Contact Info -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="h5 mb-3"><i class="bi bi-info-circle me-2"></i>Información de Contacto</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="bi bi-geo-alt text-primary me-2"></i>
+                            <strong>Dirección:</strong><br>
+                            <span class="ms-4">{{ CLUB_ADDRESS }}</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-telephone text-primary me-2"></i>
+                            <strong>Teléfono:</strong><br>
+                            <span class="ms-4">{{ CLUB_PHONE }}</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-phone text-primary me-2"></i>
+                            <strong>Móvil:</strong><br>
+                            <span class="ms-4">{{ CLUB_MOBILE }}</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-envelope text-primary me-2"></i>
+                            <strong>Email:</strong><br>
+                            <span class="ms-4"><a href="mailto:{{ CLUB_EMAIL }}">{{ CLUB_EMAIL }}</a></span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-calendar-event text-primary me-2"></i>
+                            <strong>Reuniones:</strong><br>
+                            <span class="ms-4">Primer viernes de cada mes, 20:00h</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {% if page.map_url %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    <div class="ratio ratio-4x3">
+                        <iframe src="{{ page.map_url }}" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de la sede"></iframe>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="h5 mb-3"><i class="bi bi-pencil-square me-2"></i>Envíanos un mensaje</h3>
+                    <form action="{% pageurl page %}" method="POST" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            {% if field.field.widget.input_type == 'checkbox' %}
+                            <div class="form-check">
+                                {{ field }}
+                                <label class="form-check-label" for="{{ field.id_for_label }}">
+                                    {{ field.label }}{% if field.field.required %} *{% endif %}
+                                </label>
+                            </div>
+                            {% else %}
+                            <label class="form-label" for="{{ field.id_for_label }}">
+                                {{ field.label }}{% if field.field.required %} *{% endif %}
+                            </label>
+                            {{ field }}
+                            {% endif %}
+                            {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="invalid-feedback d-block">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-send me-1"></i>Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

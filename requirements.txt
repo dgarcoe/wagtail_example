@@ -1,1 +1,6 @@
-wagtail>=6.0
+wagtail>=6.0,<7.0
+django-environ>=0.11.0
+whitenoise>=6.5
+psycopg2-binary>=2.9
+gunicorn>=21.0
+Pillow>=10.0

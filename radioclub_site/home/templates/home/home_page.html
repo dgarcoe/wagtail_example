@@ -1,21 +1,145 @@
 {% extends "base.html" %}
-{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative text-white py-5" style="background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%); min-height: 60vh; display: flex; align-items: center;">
+    {% if page.hero_image %}
+    {% image page.hero_image fill-1920x800 as hero_img %}
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: url('{{ hero_img.url }}') center/cover; opacity: 0.3;"></div>
+    {% endif %}
+    <div class="container position-relative">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3">{{ page.hero_title }}</h1>
+                <p class="lead mb-4 fs-4">{{ page.hero_subtitle }}</p>
+                {% if page.hero_cta_link %}
+                <a href="{% pageurl page.hero_cta_link %}" class="btn btn-light btn-lg px-4">
+                    {{ page.hero_cta_text }}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+<!-- Introduction -->
+{% if page.introduction %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                {{ page.introduction|richtext }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
-{% endblock content %}
+<!-- Quick Info Cards -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-3"><i class="bi bi-broadcast-pin fs-1 text-primary"></i></div>
+                        <h3 class="h5">Indicativo</h3>
+                        <p class="fw-bold text-primary fs-4">{{ CLUB_CALLSIGN }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-3"><i class="bi bi-calendar-event fs-1 text-primary"></i></div>
+                        <h3 class="h5">Reuniones</h3>
+                        <p>Primer viernes de cada mes a las 20:00h en nuestra sede</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-3"><i class="bi bi-geo-alt fs-1 text-primary"></i></div>
+                        <h3 class="h5">Sede</h3>
+                        <p>{{ CLUB_ADDRESS }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Blog Posts -->
+{% if latest_posts %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Últimas Noticias</h2>
+        <div class="row g-4">
+            {% for post in latest_posts %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if post.header_image %}
+                    {% image post.header_image fill-400x250 as post_img %}
+                    <img src="{{ post_img.url }}" class="card-img-top" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <p class="text-muted small">{{ post.date }}</p>
+                        <h5 class="card-title">
+                            <a href="{% pageurl post %}" class="text-decoration-none stretched-link">{{ post.title }}</a>
+                        </h5>
+                        {% if post.introduction %}
+                        <p class="card-text">{{ post.introduction|truncatewords:20 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Upcoming Events -->
+{% if upcoming_events %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Próximos Eventos</h2>
+        <div class="row g-4">
+            {% for event in upcoming_events %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded p-2 text-center me-3" style="min-width: 60px;">
+                                <div class="small">{{ event.date_from|date:"M" }}</div>
+                                <div class="fs-4 fw-bold">{{ event.date_from|date:"d" }}</div>
+                            </div>
+                            <h5 class="mb-0">
+                                <a href="{% pageurl event %}" class="text-decoration-none stretched-link">{{ event.title }}</a>
+                            </h5>
+                        </div>
+                        {% if event.introduction %}
+                        <p class="text-muted">{{ event.introduction|truncatewords:20 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Stream Field Content -->
+{% if page.body %}
+<section class="py-5">
+    <div class="container">
+        {% include "core/blocks/stream_block.html" with content=page.body %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

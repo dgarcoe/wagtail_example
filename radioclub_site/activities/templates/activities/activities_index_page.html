@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{{ page.title }}</h1>
+    
+    {% if page.introduction %}
+    <div class="lead mb-5">{{ page.introduction|richtext }}</div>
+    {% endif %}
+
+    {% if events %}
+    <section class="mb-5">
+        <h2 class="mb-4"><i class="bi bi-calendar-event me-2"></i>Eventos</h2>
+        <div class="row g-4">
+            {% for event in events %}
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if event.specific.header_image %}
+                    {% image event.specific.header_image fill-400x200 as event_img %}
+                    <img src="{{ event_img.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="badge bg-primary me-2">{{ event.specific.date_from }}</span>
+                            {% if event.specific.location %}<small class="text-muted"><i class="bi bi-geo-alt"></i> {{ event.specific.location }}</small>{% endif %}
+                        </div>
+                        <h5 class="card-title"><a href="{% pageurl event %}" class="text-decoration-none stretched-link">{{ event.title }}</a></h5>
+                        {% if event.specific.introduction %}<p class="card-text">{{ event.specific.introduction|truncatewords:25 }}</p>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if contests %}
+    <section class="mb-5">
+        <h2 class="mb-4"><i class="bi bi-trophy me-2"></i>Concursos</h2>
+        <div class="row g-4">
+            {% for contest in contests %}
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <span class="badge bg-warning text-dark mb-2">{{ contest.specific.date_from }}</span>
+                        <h5 class="card-title"><a href="{% pageurl contest %}" class="text-decoration-none stretched-link">{{ contest.title }}</a></h5>
+                        {% if contest.specific.introduction %}<p class="card-text">{{ contest.specific.introduction|truncatewords:25 }}</p>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if diplomas %}
+    <section class="mb-5">
+        <h2 class="mb-4"><i class="bi bi-award me-2"></i>Diplomas</h2>
+        <div class="row g-4">
+            {% for diploma in diplomas %}
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if diploma.specific.header_image %}
+                    {% image diploma.specific.header_image fill-400x200 as diploma_img %}
+                    <img src="{{ diploma_img.url }}" class="card-img-top" alt="{{ diploma.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% pageurl diploma %}" class="text-decoration-none stretched-link">{{ diploma.title }}</a></h5>
+                        {% if diploma.specific.introduction %}<p class="card-text">{{ diploma.specific.introduction|truncatewords:25 }}</p>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

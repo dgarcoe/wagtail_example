@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}Mensaje enviado{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="mb-4">
+                <i class="bi bi-check-circle text-success" style="font-size: 4rem;"></i>
+            </div>
+            <h1 class="mb-4">Mensaje enviado</h1>
+            {% if page.thank_you_text %}
+            <div class="lead">{{ page.thank_you_text|richtext }}</div>
+            {% else %}
+            <p class="lead">Gracias por ponerte en contacto con nosotros. Te responderemos lo antes posible.</p>
+            {% endif %}
+            <a href="/" class="btn btn-primary mt-4">Volver al inicio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
