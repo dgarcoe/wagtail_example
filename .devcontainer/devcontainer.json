@@ -1,8 +1,9 @@
 {
   "name": "URV EA1RKV - Radioclub Wagtail",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
-  "postCreateCommand": "pip install -r requirements.txt && cd radioclub_site && python manage.py migrate && python manage.py seed_initial_data",
-  "postStartCommand": "cd radioclub_site && python manage.py runserver 0.0.0.0:8000",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/radioclub_site",
+  "postCreateCommand": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py seed_initial_data",
+  "postStartCommand": "python manage.py runserver 0.0.0.0:8000",
   "forwardPorts": [8000],
   "customizations": {
     "vscode": {
