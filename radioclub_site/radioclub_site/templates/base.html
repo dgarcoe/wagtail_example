@@ -1,121 +1,118 @@
-{% load static wagtailcore_tags wagtailuserbar navigation_tags %}
+{% load static wagtailcore_tags wagtailuserbar %}
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{{ page.title }}{% endblock %} | URV EA1RKV</title>
-    <meta name="description" content="{% block meta_description %}Unión de Radioaficionados de Vigo - Val Miñor (EA1RKV). Sección local de URE en Vigo, Pontevedra.{% endblock %}">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+            {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+            {% wagtail_site as current_site %}
+            {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
+            {% endblock %}
+        </title>
+        {% if page.search_description %}
+        <meta name="description" content="{{ page.search_description }}" />
+        {% endif %}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {# Force all links in the live preview panel to be opened in a new tab #}
-    {% if request.in_preview_panel %}
-    <base target="_blank">
-    {% endif %}
+        {# Force all links in the live preview panel to be opened in a new tab #}
+        {% if request.in_preview_panel %}
+        <base target="_blank">
+        {% endif %}
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap 5.3.3 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/radioclub.css' %}">
+        {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/radioclub_site.css' %}">
 
-    {% block extra_css %}{% endblock %}
-</head>
-<body class="{% block body_class %}{% endblock %}">
-    {% wagtailuserbar %}
+        {% block extra_css %}
+        {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg sticky-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <span class="brand-icon"><i class="bi bi-broadcast-pin"></i></span>
-                <span class="brand-text">
-                    <strong>URV</strong><span class="brand-callsign">EA1RKV</span>
-                </span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% get_site_root as site_root %}
-                    {% main_menu site_root calling_page=page %}
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+        <nav class="site-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-logo">
+                    <span class="logo-icon">((&#x2022;))</span>
+                    <span class="logo-text"><strong>URV</strong> EA1RKV</span>
+                </a>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span><span></span><span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Noticias</a></li>
+                    <li><a href="#">Actividades</a></li>
+                    <li><a href="#">Radio</a></li>
+                    <li><a href="#">Galeria</a></li>
+                    <li><a href="#">Contacto</a></li>
                 </ul>
-                <form class="d-flex ms-lg-3 nav-search" action="/search/" method="get" role="search">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control" type="search" name="query" placeholder="Buscar..." aria-label="Buscar">
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </form>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Messages -->
-    {% if messages %}
-    <div class="container mt-3">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+        <main class="site-main">
+            {% block content %}{% endblock %}
+        </main>
 
-    <!-- Main Content -->
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row g-4 g-lg-5">
-                <div class="col-lg-4">
-                    <div class="footer-brand mb-3">
-                        <span class="brand-icon"><i class="bi bi-broadcast-pin"></i></span>
-                        <span class="brand-text"><strong>URV</strong> EA1RKV</span>
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-col footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-icon">((&#x2022;))</span>
+                        <strong>URV</strong> EA1RKV
                     </div>
-                    <p class="mb-1 text-light">{{ CLUB_NAME }}</p>
-                    <p class="footer-sub">Sección local de la Unión de Radioaficionados Españoles (URE)</p>
+                    <p class="footer-description">
+                        Union de Radioaficionados de Vigo - Val Minor
+                    </p>
+                    <p class="footer-description">
+                        Seccion local de la Union de Radioaficionados Espanoles (URE)
+                    </p>
                 </div>
-                <div class="col-lg-4">
-                    <h6 class="footer-heading">Contacto</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><i class="bi bi-geo-alt-fill me-2"></i>{{ CLUB_ADDRESS }}</li>
-                        <li><i class="bi bi-telephone-fill me-2"></i>{{ CLUB_PHONE }}</li>
-                        <li><i class="bi bi-envelope-fill me-2"></i><a href="mailto:{{ CLUB_EMAIL }}">{{ CLUB_EMAIL }}</a></li>
+                <div class="footer-col footer-contact">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>
+                            <span class="footer-icon">&#9906;</span>
+                            c/ Galindra, 16, 36213 Vigo (Pontevedra)
+                        </li>
+                        <li>
+                            <span class="footer-icon">&#9742;</span>
+                            986 290 249
+                        </li>
+                        <li>
+                            <span class="footer-icon">&#9993;</span>
+                            <a href="mailto:seccion.vigo@ure.es">seccion.vigo@ure.es</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-lg-4">
-                    <h6 class="footer-heading">Enlaces</h6>
-                    <ul class="list-unstyled footer-links">
-                        {% get_site_root as site_root %}
-                        {% footer_menu site_root calling_page=page %}
-                        <li><a href="https://www.ure.es/" target="_blank" rel="noopener">URE - Unión de Radioaficionados Españoles</a></li>
+                <div class="footer-col footer-links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="#">Nosotros</a></li>
+                        <li><a href="#">Noticias</a></li>
+                        <li><a href="#">Actividades</a></li>
+                        <li><a href="#">Radio</a></li>
+                        <li><a href="#">Galeria</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="https://www.ure.es/" target="_blank" rel="noopener">URE - Union de Radioaficionados Espanoles</a></li>
                         <li><a href="https://www.iaru.org/" target="_blank" rel="noopener">IARU</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="mb-0">&copy; {% now "Y" %} {{ CLUB_SHORT_NAME }}. Todos los derechos reservados.</p>
-                <div class="footer-social">
-                    <a href="https://www.facebook.com/profile.php?id=100064774498388" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                </div>
+                <p>&copy; 2024 URV EA1RKV - Seccion local URE en Vigo</p>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-    <!-- Bootstrap 5.3.3 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="{% static 'js/radioclub.js' %}"></script>
-    {% block extra_js %}{% endblock %}
-</body>
+        {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/radioclub_site.js' %}"></script>
+
+        {% block extra_js %}
+        {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
 </html>
