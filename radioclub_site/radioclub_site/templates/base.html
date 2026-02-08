@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static wagtailcore_tags wagtailuserbar navigation_tags %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -34,22 +34,18 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
+        {% get_site_root as site_root %}
         <nav class="site-nav">
             <div class="nav-container">
                 <a href="/" class="nav-logo">
                     <span class="logo-icon">((&#x2022;))</span>
-                    <span class="logo-text"><strong>URV</strong> EA1RKV</span>
+                    <span class="logo-text"><strong>URV</strong> {{ CLUB_CALLSIGN }}</span>
                 </a>
                 <button class="nav-toggle" aria-label="Toggle navigation">
                     <span></span><span></span><span></span>
                 </button>
                 <ul class="nav-links">
-                    <li><a href="#">Nosotros</a></li>
-                    <li><a href="#">Noticias</a></li>
-                    <li><a href="#">Actividades</a></li>
-                    <li><a href="#">Radio</a></li>
-                    <li><a href="#">Galeria</a></li>
-                    <li><a href="#">Contacto</a></li>
+                    {% main_menu parent=site_root calling_page=self %}
                 </ul>
             </div>
         </nav>
@@ -63,10 +59,10 @@
                 <div class="footer-col footer-brand">
                     <div class="footer-logo">
                         <span class="logo-icon">((&#x2022;))</span>
-                        <strong>URV</strong> EA1RKV
+                        <strong>URV</strong> {{ CLUB_CALLSIGN }}
                     </div>
                     <p class="footer-description">
-                        Union de Radioaficionados de Vigo - Val Minor
+                        {{ CLUB_NAME }}
                     </p>
                     <p class="footer-description">
                         Seccion local de la Union de Radioaficionados Espanoles (URE)
@@ -77,27 +73,22 @@
                     <ul>
                         <li>
                             <span class="footer-icon">&#9906;</span>
-                            c/ Galindra, 16, 36213 Vigo (Pontevedra)
+                            {{ CLUB_ADDRESS }}
                         </li>
                         <li>
                             <span class="footer-icon">&#9742;</span>
-                            986 290 249
+                            {{ CLUB_PHONE }}
                         </li>
                         <li>
                             <span class="footer-icon">&#9993;</span>
-                            <a href="mailto:seccion.vigo@ure.es">seccion.vigo@ure.es</a>
+                            <a href="mailto:{{ CLUB_EMAIL }}">{{ CLUB_EMAIL }}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="footer-col footer-links">
                     <h3>Enlaces</h3>
                     <ul>
-                        <li><a href="#">Nosotros</a></li>
-                        <li><a href="#">Noticias</a></li>
-                        <li><a href="#">Actividades</a></li>
-                        <li><a href="#">Radio</a></li>
-                        <li><a href="#">Galeria</a></li>
-                        <li><a href="#">Contacto</a></li>
+                        {% footer_menu parent=site_root calling_page=self %}
                         <li><a href="https://www.ure.es/" target="_blank" rel="noopener">URE - Union de Radioaficionados Espanoles</a></li>
                         <li><a href="https://www.iaru.org/" target="_blank" rel="noopener">IARU</a></li>
                     </ul>

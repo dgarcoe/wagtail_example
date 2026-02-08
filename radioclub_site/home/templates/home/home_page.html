@@ -12,10 +12,10 @@
     <div class="hero-container">
         <span class="hero-badge">&#9679; Seccion local URE en Vigo</span>
         <h1 class="hero-title">
-            Union de Radioaficionados de Vigo - Val Minor
-            EA1RKV - Seccion local de URE
+            {{ CLUB_NAME }}
+            {{ CLUB_CALLSIGN }} - Seccion local de URE
         </h1>
-        <a href="mailto:seccion.vigo@ure.es" class="hero-contact">
+        <a href="mailto:{{ CLUB_EMAIL }}" class="hero-contact">
             <span class="hero-contact-icon">&#9993;</span> Contactar
         </a>
     </div>
@@ -23,7 +23,7 @@
 
 <section class="info-tags">
     <div class="info-tags-container">
-        <span class="tag">EA1RKV</span>
+        <span class="tag">{{ CLUB_CALLSIGN }}</span>
         <span class="tag">Indicativo</span>
         <span class="tag">1er Viernes</span>
         <span class="tag">Reuniones mensuales</span>
@@ -44,7 +44,7 @@
                 </svg>
             </div>
             <h2 class="card-title">Indicativo</h2>
-            <p class="card-text">EA1RKV</p>
+            <p class="card-text">{{ CLUB_CALLSIGN }}</p>
         </div>
         <div class="card">
             <div class="card-icon">
@@ -66,7 +66,7 @@
                 </svg>
             </div>
             <h2 class="card-title">Sede</h2>
-            <p class="card-text">c/ Galindra, 16, 36213 Vigo (Pontevedra)</p>
+            <p class="card-text">{{ CLUB_ADDRESS }}</p>
         </div>
     </div>
 </section>
