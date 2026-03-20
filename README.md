@@ -42,9 +42,17 @@ The site will be available at **http://localhost:8000** and the admin at **http:
 This project includes a `.devcontainer` configuration for GitHub Codespaces:
 
 1. Click **"Code" > "Codespaces" > "Create codespace on main"**
-2. Wait for the environment to build
-3. The site starts automatically at port 8000
+2. Wait for the environment to build (installs deps, runs migrations, creates admin user)
+3. The dev server starts automatically at port 8000 — a browser tab opens when ready
 4. Default admin credentials: `admin` / `admin`
+5. Access the admin at the forwarded URL + `/admin/`
+
+> **Note:** Codespaces uses SQLite for simplicity. For PostgreSQL, use Docker Compose locally.
+
+If the server doesn't start automatically, run in the terminal:
+```bash
+python manage.py runserver 0.0.0.0:8000
+```
 
 ## Local Development (without Docker)
 

@@ -1,11 +1,17 @@
 {
   "name": "EA1RKV Wagtail",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "web",
-  "workspaceFolder": "/app",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py createsuperuser --noinput || true",
+  "postStartCommand": "python manage.py runserver 0.0.0.0:8000 > /tmp/runserver.log 2>&1 &",
   "forwardPorts": [8000],
-  "postCreateCommand": "python manage.py migrate && python manage.py createsuperuser --noinput || true",
+  "portsAttributes": {
+    "8000": {
+      "label": "Wagtail",
+      "onAutoForward": "openBrowser"
+    }
+  },
   "containerEnv": {
+    "DJANGO_SETTINGS_MODULE": "ea1rkv.settings.dev",
     "DJANGO_SUPERUSER_USERNAME": "admin",
     "DJANGO_SUPERUSER_PASSWORD": "admin",
     "DJANGO_SUPERUSER_EMAIL": "admin@ea1rkv.es"
