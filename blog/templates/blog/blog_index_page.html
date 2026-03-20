@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}
+            <div class="page-intro">{{ page.intro|richtext }}</div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="blog-listing">
+    <div class="container">
+        {% if posts %}
+        <div class="posts-grid">
+            {% for post in posts %}
+            <article class="post-card">
+                {% if post.specific.featured_image %}
+                    <div class="post-card-image">
+                        {% image post.specific.featured_image fill-400x250 as img %}
+                        <a href="{% pageurl post %}"><img src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy"></a>
+                    </div>
+                {% endif %}
+                <div class="post-card-body">
+                    {% if post.specific.date %}
+                        <time class="post-date" datetime="{{ post.specific.date|date:'Y-m-d' }}">{{ post.specific.date }}</time>
+                    {% endif %}
+                    <h2 class="post-card-title"><a href="{% pageurl post %}">{{ post.title }}</a></h2>
+                    {% if post.specific.intro %}
+                        <p class="post-card-intro">{{ post.specific.intro }}</p>
+                    {% endif %}
+                    {% if post.specific.tags.all %}
+                        <div class="post-tags">
+                            {% for tag in post.specific.tags.all %}
+                                <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        {% include "includes/pagination.html" %}
+
+        {% else %}
+        <p class="no-posts">{% trans "No hay publicaciones todavía." %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

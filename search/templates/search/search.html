@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags %}
+
+{% block title %}{% trans "Buscar" %} | EA1RKV{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% trans "Buscar" %}</h1>
+    </div>
+</section>
+
+<section class="search-section">
+    <div class="container container-narrow">
+        <form action="{% url 'search' %}" method="get" class="search-form">
+            <input type="text" name="query" value="{{ search_query }}" placeholder="{% trans 'Buscar...' %}" class="search-input" autofocus>
+            <button type="submit" class="btn btn-primary">{% trans "Buscar" %}</button>
+        </form>
+
+        {% if search_query %}
+            {% if search_results %}
+                <ul class="search-results">
+                    {% for result in search_results %}
+                        <li class="search-result">
+                            <h3><a href="{% pageurl result %}">{{ result }}</a></h3>
+                            {% if result.specific.intro %}
+                                <p>{{ result.specific.intro }}</p>
+                            {% elif result.search_description %}
+                                <p>{{ result.search_description }}</p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-results">{% trans "No se encontraron resultados para" %} "<strong>{{ search_query }}</strong>"</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

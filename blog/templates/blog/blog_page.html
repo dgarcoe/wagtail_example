@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<article class="blog-post">
+    <header class="post-header">
+        <div class="container">
+            <div class="post-meta">
+                <time datetime="{{ page.date|date:'Y-m-d' }}">{{ page.date }}</time>
+                {% if page.tags.all %}
+                    <div class="post-tags">
+                        {% for tag in page.tags.all %}
+                            <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <h1>{{ page.title }}</h1>
+            <p class="post-intro">{{ page.intro }}</p>
+        </div>
+    </header>
+
+    {% if page.featured_image %}
+    <div class="post-featured-image">
+        <div class="container">
+            {% image page.featured_image width-900 as img %}
+            <img src="{{ img.url }}" alt="{{ img.alt }}">
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="post-body">
+        <div class="container container-narrow">
+            {{ page.body|richtext }}
+        </div>
+    </div>
+
+    <footer class="post-footer">
+        <div class="container container-narrow">
+            <a href="{{ page.get_parent.url }}" class="btn btn-outline">&larr; {% trans "Volver al blog" %}</a>
+        </div>
+    </footer>
+</article>
+{% endblock %}
