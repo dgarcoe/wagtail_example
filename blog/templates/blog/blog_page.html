@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
 <article class="blog-post">
@@ -37,7 +37,7 @@
 
     <footer class="post-footer">
         <div class="container container-narrow">
-            <a href="{{ page.get_parent.url }}" class="btn btn-outline">&larr; {% trans "Volver al blog" %}</a>
+            <a href="{{ page.get_parent.url }}" class="btn btn-outline">&larr; Volver al blog</a>
         </div>
     </footer>
 </article>

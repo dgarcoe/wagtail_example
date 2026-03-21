@@ -8,9 +8,6 @@ INSTALLED_APPS = [
     "home",
     "blog",
     "search",
-    # Wagtail localize
-    "wagtail_localize",
-    "wagtail_localize.locales",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -37,7 +34,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -64,7 +60,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "django.template.context_processors.i18n",
             ],
         },
     },
@@ -87,26 +82,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# Internationalization
 LANGUAGE_CODE = "es"
 TIME_ZONE = "Europe/Madrid"
-USE_I18N = True
-USE_L10N = True
+USE_I18N = False
 USE_TZ = True
-
-LANGUAGES = [
-    ("es", "Español"),
-    ("en", "English"),
-    ("gl", "Galego"),
-]
-
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, "locale"),
-]
-
-# Wagtail i18n
-WAGTAIL_I18N_ENABLED = True
-WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
 
 # Static files
 STATICFILES_FINDERS = [

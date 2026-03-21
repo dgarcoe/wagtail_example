@@ -1,4 +1,4 @@
-{% load i18n wagtailcore_tags %}
+{% load wagtailcore_tags %}
 <header class="site-header">
     <div class="container">
         <div class="header-inner">
@@ -7,34 +7,22 @@
                 <span class="site-name">Radioclub Vigo-Val Miñor</span>
             </a>
 
-            <button class="menu-toggle" aria-label="{% trans 'Toggle menu' %}" aria-expanded="false">
+            <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
                 <span class="hamburger"></span>
             </button>
 
-            <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
+            <nav class="main-nav" aria-label="Navegación principal">
                 <ul class="nav-list">
-                    <li><a href="{% url 'wagtail_serve' '' %}">{% trans "Inicio" %}</a></li>
+                    <li><a href="{% url 'wagtail_serve' '' %}">Inicio</a></li>
                     <li><a href="{% url 'wagtail_serve' 'blog/' %}">Blog</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "El Club" %}</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "Actividades" %}</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "Galería" %}</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "Diplomas" %}</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "Manuales" %}</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "Repetidores" %}</a></li>
-                    <li><a href="#" class="coming-soon" title="{% trans 'Próximamente' %}">{% trans "Contacto" %}</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">El Club</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">Actividades</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">Galería</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">Diplomas</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">Manuales</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">Repetidores</a></li>
+                    <li><a href="#" class="coming-soon" title="Próximamente">Contacto</a></li>
                 </ul>
-
-                <div class="lang-switcher">
-                    {% get_current_language as CURRENT_LANGUAGE %}
-                    {% get_available_languages as LANGUAGES %}
-                    {% for lang_code, lang_name in LANGUAGES %}
-                        {% if lang_code != CURRENT_LANGUAGE %}
-                            <a href="/{{ lang_code }}/" class="lang-link" title="{{ lang_name }}">{{ lang_code|upper }}</a>
-                        {% else %}
-                            <span class="lang-link active">{{ lang_code|upper }}</span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
             </nav>
         </div>
     </div>

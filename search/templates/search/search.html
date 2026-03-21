@@ -1,20 +1,20 @@
 {% extends "base.html" %}
-{% load i18n wagtailcore_tags %}
+{% load wagtailcore_tags %}
 
-{% block title %}{% trans "Buscar" %} | EA1RKV{% endblock %}
+{% block title %}Buscar | EA1RKV{% endblock %}
 
 {% block content %}
 <section class="page-header">
     <div class="container">
-        <h1>{% trans "Buscar" %}</h1>
+        <h1>Buscar</h1>
     </div>
 </section>
 
 <section class="search-section">
     <div class="container container-narrow">
         <form action="{% url 'search' %}" method="get" class="search-form">
-            <input type="text" name="query" value="{{ search_query }}" placeholder="{% trans 'Buscar...' %}" class="search-input" autofocus>
-            <button type="submit" class="btn btn-primary">{% trans "Buscar" %}</button>
+            <input type="text" name="query" value="{{ search_query }}" placeholder="Buscar..." class="search-input" autofocus>
+            <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
 
         {% if search_query %}
@@ -32,7 +32,7 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                <p class="no-results">{% trans "No se encontraron resultados para" %} "<strong>{{ search_query }}</strong>"</p>
+                <p class="no-results">No se encontraron resultados para "<strong>{{ search_query }}</strong>"</p>
             {% endif %}
         {% endif %}
     </div>

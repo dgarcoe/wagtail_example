@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
 <!-- Latest Posts Section -->
 {% if latest_posts %}
 <section class="latest-posts">
     <div class="container">
-        <h2 class="section-title">{% trans "Últimas publicaciones" %}</h2>
+        <h2 class="section-title">Últimas publicaciones</h2>
         <div class="posts-grid">
             {% for post in latest_posts %}
             <article class="post-card">
@@ -25,15 +25,15 @@
             {% endfor %}
         </div>
         <div class="section-cta">
-            <a href="{% url 'wagtail_serve' 'blog/' %}" class="btn btn-outline">{% trans "Ver todas las publicaciones" %}</a>
+            <a href="{% url 'wagtail_serve' 'blog/' %}" class="btn btn-outline">Ver todas las publicaciones</a>
         </div>
     </div>
 </section>
 {% else %}
 <section class="latest-posts">
     <div class="container">
-        <h2 class="section-title">{% trans "Últimas publicaciones" %}</h2>
-        <p class="no-posts">{% trans "No hay publicaciones todavía." %}</p>
+        <h2 class="section-title">Últimas publicaciones</h2>
+        <p class="no-posts">No hay publicaciones todavía.</p>
     </div>
 </section>
 {% endif %}
