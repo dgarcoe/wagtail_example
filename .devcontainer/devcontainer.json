@@ -6,7 +6,7 @@
       "packages": "libpq-dev,libjpeg-dev,zlib1g-dev"
     }
   },
-  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput && (python manage.py createsuperuser --noinput || true)",
+  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput && (python manage.py createsuperuser --noinput || true) && python manage.py seed_blog",
   "postStartCommand": "nohup python manage.py runserver 0.0.0.0:8000 > /tmp/runserver.log 2>&1 &",
   "forwardPorts": [8000],
   "portsAttributes": {
