@@ -2,55 +2,6 @@
 {% load i18n wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-callsign">{{ page.hero_title }}</h1>
-            <p class="hero-subtitle">{{ page.hero_subtitle }}</p>
-            {% if page.hero_cta_text and page.hero_cta_link %}
-                <a href="{{ page.hero_cta_link }}" class="btn btn-primary btn-lg">{{ page.hero_cta_text }}</a>
-            {% endif %}
-        </div>
-    </div>
-</section>
-
-<!-- Club Info Section -->
-{% if page.club_description or page.club_frequency or page.club_locator %}
-<section class="club-info">
-    <div class="container">
-        <div class="info-cards">
-            {% if page.club_callsign %}
-            <div class="info-card">
-                <div class="info-icon">&#x1F4E1;</div>
-                <h3>{% trans "Indicativo" %}</h3>
-                <p class="info-value callsign-text">{{ page.club_callsign }}</p>
-            </div>
-            {% endif %}
-            {% if page.club_frequency %}
-            <div class="info-card">
-                <div class="info-icon">&#x1F50A;</div>
-                <h3>{% trans "Frecuencia" %}</h3>
-                <p class="info-value">{{ page.club_frequency }}</p>
-            </div>
-            {% endif %}
-            {% if page.club_locator %}
-            <div class="info-card">
-                <div class="info-icon">&#x1F4CD;</div>
-                <h3>{% trans "Locator" %}</h3>
-                <p class="info-value">{{ page.club_locator }}</p>
-            </div>
-            {% endif %}
-        </div>
-        {% if page.club_description %}
-        <div class="club-description">
-            {{ page.club_description|richtext }}
-        </div>
-        {% endif %}
-    </div>
-</section>
-{% endif %}
-
 <!-- Latest Posts Section -->
 {% if latest_posts %}
 <section class="latest-posts">
@@ -76,6 +27,13 @@
         <div class="section-cta">
             <a href="{% url 'wagtail_serve' 'blog/' %}" class="btn btn-outline">{% trans "Ver todas las publicaciones" %}</a>
         </div>
+    </div>
+</section>
+{% else %}
+<section class="latest-posts">
+    <div class="container">
+        <h2 class="section-title">{% trans "Últimas publicaciones" %}</h2>
+        <p class="no-posts">{% trans "No hay publicaciones todavía." %}</p>
     </div>
 </section>
 {% endif %}
