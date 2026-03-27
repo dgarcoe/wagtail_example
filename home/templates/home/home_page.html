@@ -5,8 +5,8 @@
 <!-- Banner Section -->
 {% if page.banner_image %}
 <section class="hero-banner">
-    {% image page.banner_image fill-1920x500 as banner_img %}
-    <div class="hero-banner-bg" style="background-image: url('{{ banner_img.url }}')"></div>
+    {% image page.banner_image width-1920 as banner_img %}
+    <img class="hero-banner-bg" src="{{ banner_img.url }}" alt="{{ banner_img.alt }}">
     <div class="hero-banner-overlay"></div>
     <div class="container hero-banner-content">
         <h1 class="hero-banner-title">{{ page.banner_title }}</h1>
