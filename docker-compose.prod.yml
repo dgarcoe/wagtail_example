@@ -50,3 +50,7 @@ volumes:
   static_data:
   media_data:
   redis_data:
+
+networks:
+  quendaward-network:
+    driver: bridge
